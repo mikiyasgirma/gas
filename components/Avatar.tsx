@@ -18,7 +18,7 @@ const Avatar = ({ image, name, role }: AvatarProps): JSX.Element => {
         />
       </div>
       <div className="text-gray-400 text-lg pt-2 pb-1">{name}</div>
-      <div className="font-playFair text-gray-200 text-xs">{role}</div>
+      <div className="font-playFair text-gray-400 text-xs">{role}</div>
     </div>
   );
 };
