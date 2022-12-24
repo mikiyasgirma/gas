@@ -2,16 +2,89 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import InputForm from "../components/InputForm";
 import Layout from "../components/Layout";
-import RegisteringForm from "../components/RegisteringForm";
 import SideBar from "../components/SideBar";
-import DataTable from "../components/DT";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { Table } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import FormModal from "../components/FormModal";
+
+const toggleModal = () => {};
+
+const columns = [
+  {
+    key: "firstName",
+    title: "First Name",
+    dataIndex: "firstName",
+  },
+  {
+    key: "lastName",
+    title: "Last Name",
+    dataIndex: "lastName",
+  },
+  {
+    key: "username",
+    title: "Username",
+    dataIndex: "username",
+  },
+  {
+    key: "assignedTo",
+    title: "Assigned To",
+    dataIndex: "assignedTo",
+  },
+  {
+    key: "action",
+    title: "Actions",
+    render: (record: any) => {
+      return (
+        <>
+          <div className="flex space-x-3">
+            <EditOutlined
+              style={{ color: "black" }}
+              onClick={() => toggleModal()}
+            />
+            <DeleteOutlined
+              style={{ color: "red" }}
+              onClick={() => toggleModal()}
+            />
+          </div>
+        </>
+      );
+    },
+  },
+];
+
+const data = [
+  {
+    firstName: "miko",
+    lastName: "Girma",
+    username: "mamiko",
+    assignedTo: "Total Piyasa",
+  },
+  {
+    firstName: "miko",
+    lastName: "Girma",
+    username: "mamiko",
+    assignedTo: "Total Piyasa",
+  },
+  {
+    firstName: "miko",
+    lastName: "Girma",
+    username: "mamiko",
+    assignedTo: "Total Piyasa",
+  },
+];
 
 const RegisterGasStations: NextPage = () => {
   const [gasStations, setGasStations] = useState(null);
   const [error, setError] = useState<String | null>(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
 
   useEffect(() => {
     const fetchGasStations = async () => {
@@ -37,11 +110,27 @@ const RegisterGasStations: NextPage = () => {
           <SideBar />
         </div>
         <div className="basis-3/4">
-          <div className="flex flex-col h-full items-center justify-center">
-            {/* <DataTable /> */}
+          <div className="flex flex-col h-full space-y-8 items-center justify-center">
+            <button
+              onClick={() => showModal()}
+              className="bg-primary p-2 text-white rounded-lg"
+            >
+              Add Agent
+            </button>
+            <Table columns={columns} dataSource={data} />
           </div>
         </div>
       </div>
+      {open && (
+        <FormModal
+          loading={loading}
+          setLoading={setLoading}
+          open={open}
+          setOpen={setOpen}
+          isUser={true}
+          isGasStation={false}
+        />
+      )}
     </Layout>
   );
 };
