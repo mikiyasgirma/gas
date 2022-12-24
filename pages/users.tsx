@@ -8,6 +8,7 @@ import { db } from "../firebase";
 import { Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import FormModal from "../components/FormModal";
+import useModalStore from "../store/modalStore";
 
 const toggleModal = () => {};
 
@@ -80,10 +81,14 @@ const RegisterGasStations: NextPage = () => {
   const [error, setError] = useState<String | null>(null);
   // const [loading, setLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const isModalOpen = useModalStore((state) => state.isModalOpen);
+  const openModal = useModalStore((state) => state.openModal);
+
+  console.log("isModalOpen", isModalOpen);
 
   const showModal = () => {
-    setOpen(true);
+    openModal();
   };
 
   useEffect(() => {
@@ -121,12 +126,12 @@ const RegisterGasStations: NextPage = () => {
           </div>
         </div>
       </div>
-      {open && (
+      {isModalOpen && (
         <FormModal
           loading={loading}
           setLoading={setLoading}
-          open={open}
-          setOpen={setOpen}
+          open={isModalOpen}
+          setOpen={showModal}
           isUser={true}
           isGasStation={false}
         />

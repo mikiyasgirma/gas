@@ -9,6 +9,7 @@ import { data } from "../data";
 import FormModal from "../components/FormModal";
 import { Modal, Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import useModalStore from "../store/modalStore";
 
 const columns = [
   {
@@ -70,8 +71,11 @@ const RegisterGasStations: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const isModalOpen = useModalStore((state) => state.isModalOpen);
+  const openModal = useModalStore((state) => state.openModal);
+
   const showModal = () => {
-    setOpen(true);
+    openModal();
   };
 
   // const [gasStations, setGasStations] = useState<GasStation[]>([]);
@@ -123,12 +127,12 @@ const RegisterGasStations: NextPage = () => {
           </div>
         </div>
       </div>
-      {open && (
+      {isModalOpen && (
         <FormModal
           loading={loading}
           setLoading={setLoading}
-          open={open}
-          setOpen={setOpen}
+          open={isModalOpen}
+          setOpen={showModal}
           isUser={false}
           isGasStation={true}
         />

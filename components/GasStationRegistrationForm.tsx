@@ -1,8 +1,9 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { Form, Input, message, Select, Upload } from "antd";
+import { Button, Form, Input, message, Select, Upload } from "antd";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import type { UploadChangeParam } from "antd/es/upload";
 import { useState } from "react";
+import useModalStore from "../store/modalStore";
 
 type props = {};
 
@@ -35,8 +36,10 @@ const beforeUpload = (file: RcFile) => {
 };
 
 const GasStationRegistrationForm = (): JSX.Element => {
+  const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+  const closeModal = useModalStore((state) => state.closeModal);
 
   const handleChange: UploadProps["onChange"] = (
     info: UploadChangeParam<UploadFile>
@@ -61,9 +64,17 @@ const GasStationRegistrationForm = (): JSX.Element => {
     </div>
   );
 
-  const [form] = Form.useForm();
+  const onReset = () => {
+    form.resetFields();
+  };
+
+  const onFinish = (values: any) => {
+    console.log(values);
+    closeModal();
+  };
+
   return (
-    <Form layout="horizontal" form={form}>
+    <Form layout="horizontal" form={form} onFinish={onFinish}>
       <Form.Item label="Gas Station Name">
         <Input placeholder="gas station name" />
       </Form.Item>
@@ -100,6 +111,12 @@ const GasStationRegistrationForm = (): JSX.Element => {
             uploadButton
           )}
         </Upload>
+        <Button htmlType="button" onClick={onReset}>
+          Reset
+        </Button>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
       </Form.Item>
     </Form>
   );
