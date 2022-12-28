@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import InputForm from "../components/InputForm";
 import Layout from "../components/Layout";
 import SideBar from "../components/SideBar";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query } from "firebase/firestore";
 import { db } from "../firebase";
 import { data } from "../data";
 import FormModal from "../components/FormModal";
@@ -70,44 +70,27 @@ let toggleModal = () => {
 const RegisterGasStations: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-
   const isModalOpen = useModalStore((state) => state.isModalOpen);
   const openModal = useModalStore((state) => state.openModal);
+
+  const [gasStations, setGasStations] = useState([]);
+  console.log("gasStations", gasStations);
+
+  useEffect(() => {
+    const q = query(collection(db, "gasstations"));
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      let gasStationsArr: any = [];
+      querySnapshot.forEach((doc) => {
+        gasStationsArr.push({ ...doc.data(), id: doc.id });
+      });
+      setGasStations(gasStationsArr);
+    });
+    return () => unsub();
+  }, []);
 
   const showModal = () => {
     openModal();
   };
-
-  // const [gasStations, setGasStations] = useState<GasStation[]>([]);
-  // const [error, setError] = useState<String | null>(null);
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const fetchGasStations = async () => {
-  //     try {
-  //       const qs = await getDocs(collection(db, "gasstations"));
-  //       qs.forEach((doc) => {
-  //         // console.log(doc.data());
-  //         const document = doc.data();
-  //         setGasStations((prevGasStations) => [
-  //           ...prevGasStations,
-  //           {
-  //             key: "o23urskdf",
-  //             name: "miko",
-  //             capacity: 3000,
-  //             available: 1000,
-  //           },
-  //         ]);
-  //       });
-  //     } catch (err) {
-  //       setError("failed to load todos");
-  //       console.log(err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchGasStations();
-  // }, []);
 
   return (
     <Layout>

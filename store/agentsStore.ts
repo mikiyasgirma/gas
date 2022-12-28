@@ -22,7 +22,7 @@ export interface Test {
   id: string;
 }
 
-interface UserState {
+interface AgentsState {
   agents: Test[];
   syncUsers: () => void;
   addUser: (user: User) => void;
@@ -30,7 +30,7 @@ interface UserState {
   updateUser: (id: string, user: User) => void;
 }
 
-const useUserStore = create<UserState>((set) => ({
+const useAgentsStore = create<AgentsState>((set) => ({
   agents: [],
   addUser: (agent: User) => {
     set((state) => ({
@@ -63,4 +63,4 @@ const useUserStore = create<UserState>((set) => ({
   removeUser: (id) => {},
   updateUser: (id) => {},
 }));
-export default useUserStore;
+export default useAgentsStore;

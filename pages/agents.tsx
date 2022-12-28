@@ -9,7 +9,7 @@ import { Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import FormModal from "../components/FormModal";
 import useModalStore from "../store/modalStore";
-import useUserStore from "../store/userStore";
+import useAgentsStore from "../store/agentsStore";
 
 const toggleModal = () => {};
 
@@ -60,8 +60,8 @@ const Agents: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const isModalOpen = useModalStore((state) => state.isModalOpen);
   const openModal = useModalStore((state) => state.openModal);
-  const agents = useUserStore((state) => state.agents);
-  const getData = useUserStore((state) => state.syncUsers);
+  const agents = useAgentsStore((state) => state.agents);
+  const getData = useAgentsStore((state) => state.syncUsers);
   console.log("users", agents);
 
   useEffect(() => {

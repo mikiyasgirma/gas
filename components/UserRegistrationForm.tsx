@@ -4,7 +4,7 @@ import React from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import useModalStore from "../store/modalStore";
-import useUserStore from "../store/userStore";
+import useUserStore from "../store/agentsStore";
 
 const UserRegistrationForm = () => {
   const closeModal = useModalStore((state) => state.closeModal);
