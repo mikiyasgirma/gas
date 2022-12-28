@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import InputForm from "../components/InputForm";
 import Layout from "../components/Layout";
 import SideBar from "../components/SideBar";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query } from "firebase/firestore";
 import { db } from "../firebase";
 import { Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import FormModal from "../components/FormModal";
 import useModalStore from "../store/modalStore";
+import useUserStore from "../store/userStore";
 
 const toggleModal = () => {};
 
@@ -19,9 +20,9 @@ const columns = [
     dataIndex: "firstName",
   },
   {
-    key: "lastName",
-    title: "Last Name",
-    dataIndex: "lastName",
+    key: "fatherName",
+    title: "Father Name",
+    dataIndex: "fatherName",
   },
   {
     key: "username",
@@ -55,58 +56,21 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    firstName: "miko",
-    lastName: "Girma",
-    username: "mamiko",
-    assignedTo: "Total Piyasa",
-  },
-  {
-    firstName: "miko",
-    lastName: "Girma",
-    username: "mamiko",
-    assignedTo: "Total Piyasa",
-  },
-  {
-    firstName: "miko",
-    lastName: "Girma",
-    username: "mamiko",
-    assignedTo: "Total Piyasa",
-  },
-];
-
-const RegisterGasStations: NextPage = () => {
-  const [gasStations, setGasStations] = useState(null);
-  const [error, setError] = useState<String | null>(null);
-  // const [loading, setLoading] = useState(true);
+const Agents: NextPage = () => {
   const [loading, setLoading] = useState(false);
-  // const [open, setOpen] = useState(false);
   const isModalOpen = useModalStore((state) => state.isModalOpen);
   const openModal = useModalStore((state) => state.openModal);
+  const agents = useUserStore((state) => state.agents);
+  const getData = useUserStore((state) => state.syncUsers);
+  console.log("users", agents);
 
-  console.log("isModalOpen", isModalOpen);
+  useEffect(() => {
+    getData();
+  }, []);
 
   const showModal = () => {
     openModal();
   };
-
-  useEffect(() => {
-    const fetchGasStations = async () => {
-      try {
-        const qs = await getDocs(collection(db, "gasstations"));
-        qs.forEach((doc) => {
-          console.log(doc.data());
-        });
-      } catch (err) {
-        setError("failed to load todos");
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchGasStations();
-  }, []);
 
   return (
     <Layout>
@@ -122,7 +86,7 @@ const RegisterGasStations: NextPage = () => {
             >
               Add Agent
             </button>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={agents} />
           </div>
         </div>
       </div>
@@ -139,4 +103,4 @@ const RegisterGasStations: NextPage = () => {
     </Layout>
   );
 };
-export default RegisterGasStations;
+export default Agents;

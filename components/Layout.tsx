@@ -9,7 +9,7 @@ const Layout = ({ children }: Props) => {
   return (
     <div className="bg-background min-h-screen font-poppins">
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

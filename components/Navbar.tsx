@@ -19,10 +19,10 @@ const Navbar = (): JSX.Element => {
           <div>Gas Stations</div>
         </div>
       </Link>
-      <Link href="/users">
+      <Link href="/agents">
         <div className="flex items-center space-x-6">
           <FiUsers size={24} />
-          <div>Users</div>
+          <div>Agents</div>
         </div>
       </Link>
       <div className="fixed bottom-16">
