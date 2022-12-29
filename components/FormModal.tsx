@@ -40,6 +40,7 @@ const FormModal = ({
       title={`${isUser ? "Agent Registration" : "Gas Station Registration"}`}
       onOk={handleOk}
       onCancel={handleCancel}
+      width={1000}
       footer={
         [
           // <Button key="back" onClick={handleCancel}>

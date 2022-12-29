@@ -4,6 +4,8 @@ import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import type { UploadChangeParam } from "antd/es/upload";
 import { useState } from "react";
 import useModalStore from "../store/modalStore";
+import Location from "./Location";
+import { useGeolocated } from "../src";
 
 type props = {};
 
@@ -41,6 +43,16 @@ const GasStationRegistrationForm = (): JSX.Element => {
   const [imageUrl, setImageUrl] = useState<string>();
   const closeModal = useModalStore((state) => state.closeModal);
 
+  const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: false,
+      },
+      suppressLocationOnMount: true,
+      userDecisionTimeout: 5000,
+    });
+  console.log("coord", coords);
+
   const handleChange: UploadProps["onChange"] = (
     info: UploadChangeParam<UploadFile>
   ) => {
@@ -74,28 +86,9 @@ const GasStationRegistrationForm = (): JSX.Element => {
   };
 
   return (
-    <Form layout="horizontal" form={form} onFinish={onFinish}>
-      <Form.Item label="Gas Station Name">
-        <Input placeholder="gas station name" />
-      </Form.Item>
-      <Form.Item label="Gas station place name">
-        <Input placeholder="input gas station place" />
-      </Form.Item>
-      <Form.Item label="Number of hoses ">
-        <Input placeholder="input number of hoses" />
-      </Form.Item>
-      <Form.Item label="Benzil capacity ">
-        <Input placeholder="benzil capacity" />
-      </Form.Item>
-      <Form.Item label="Nafta Capacity ">
-        <Input placeholder="input placeholder" />
-      </Form.Item>
-      <Form.Item label="Select">
-        <Select>
-          <Select.Option value="demo">Demo</Select.Option>
-        </Select>
-      </Form.Item>
-      <Form.Item label="Upload" valuePropName="fileList">
+    <div className="grid grid-cols-2 gap-24">
+      <Form layout="horizontal" form={form} onFinish={onFinish}>
+        <p className="font-semibold text-lg py-4">Gas Station Informaiton</p>
         <Upload
           name="avatar"
           listType="picture-card"
@@ -111,14 +104,70 @@ const GasStationRegistrationForm = (): JSX.Element => {
             uploadButton
           )}
         </Upload>
-        <Button htmlType="button" onClick={onReset}>
-          Reset
-        </Button>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item label="Gas Station Name">
+          <Input placeholder="input gas station name" />
+        </Form.Item>
+        <Form.Item label="Gas Station Address">
+          <Input placeholder="input gas station address" />
+        </Form.Item>
+        <Form.Item label="Number of Hoses">
+          <Input placeholder="input number of hoses" />
+        </Form.Item>
+        <Form.Item label="Queue">
+          <Select>
+            <Select.Option value="demo">High</Select.Option>
+            <Select.Option value="demo">Medium</Select.Option>
+            <Select.Option value="demo">Low</Select.Option>
+          </Select>
+        </Form.Item>
+        <div className="flex items-center space-x-2">
+          <button
+            className="text-black hover:bg-sky-800 hover:text-white py-2 px-4 border border-1 rounded-md"
+            onClick={() => getPosition()}
+            type="button"
+          >
+            Pick current location
+          </button>
+        </div>
+        <div className="flex space-x-2 py-4">
+          <Button htmlType="button" onClick={onReset}>
+            Reset
+          </Button>
+          <Button type="primary" htmlType="submit" className="text-black">
+            Submit
+          </Button>
+        </div>
+      </Form>
+      <Form layout="horizontal" form={form} onFinish={onFinish}>
+        <p className="font-semibold text-lg py-4">Tanker</p>
+        <div>
+          <div className="font-semibold text-base">Benzil</div>
+          <Form.Item label="Capacity">
+            <Input placeholder="input gas station capacity" />
+          </Form.Item>
+          <Form.Item label="Available">
+            <Input placeholder="input gas station available" />
+          </Form.Item>
+        </div>
+        <div>
+          <div className="font-semibold text-lg">Nafta</div>
+          <Form.Item label="Capacity">
+            <Input placeholder="input gas station capacity" />
+          </Form.Item>
+          <Form.Item label="Available">
+            <Input placeholder="input gas station available" />
+          </Form.Item>
+        </div>
+        <div className="flex space-x-2">
+          <Button htmlType="button" onClick={onReset}>
+            Reset
+          </Button>
+          <Button type="primary" htmlType="submit" className="text-black">
+            Submit
+          </Button>
+        </div>
+      </Form>
+    </div>
   );
 };
 export default GasStationRegistrationForm;
