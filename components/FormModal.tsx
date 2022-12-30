@@ -6,26 +6,26 @@ import GasStationRegistrationForm from "./GasStationRegistrationForm";
 import UserRegistrationForm from "./UserRegistrationForm";
 
 type props = {
-  loading: boolean;
+  // loading: boolean;
   open: boolean;
   isUser: boolean;
   isGasStation: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  // setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const FormModal = ({
-  loading,
-  setLoading,
+  // loading,
+  // setLoading,
   open,
   setOpen,
   isUser,
   isGasStation,
 }: props): JSX.Element => {
   const handleOk = () => {
-    setLoading(true);
+    // setLoading(true);
     setTimeout(() => {
-      setLoading(false);
+      // setLoading(false);
       setOpen(false);
     }, 3000);
   };

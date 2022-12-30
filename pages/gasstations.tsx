@@ -10,8 +10,21 @@ import FormModal from "../components/FormModal";
 import { Modal, Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import useModalStore from "../store/modalStore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import useGasStationsStore from "../store/gasStationsStore";
 
 const columns = [
+  {
+    title: "Image",
+    dataIndex: "image",
+    render: (image: string) => (
+      <img
+        alt={image}
+        src={image}
+        className="w-20 h-20 object-cover rounded-md"
+      />
+    ),
+  },
   {
     key: "name",
     title: "Name",
@@ -23,20 +36,31 @@ const columns = [
     dataIndex: "address",
   },
   {
-    key: "phone",
-    title: "Capacity",
-    dataIndex: "capacity",
+    key: "numberOfHoses",
+    title: "Number of Hoses",
+    dataIndex: "numberOfHoses",
   },
   {
-    key: "Available",
-    title: "Available",
-    dataIndex: "available",
+    key: "benzilCapacity",
+    title: "Benzil Capacity in Liter",
+    dataIndex: "benzilCapacity",
   },
   {
-    key: "contact",
-    title: "Contact",
-    dataIndex: "contact",
+    key: "benzilAvailable",
+    title: "Benzil Available in Liter",
+    dataIndex: "benzilAvailable",
   },
+  {
+    key: "naftaCapacity",
+    title: "Nafta Capacity in Liter",
+    dataIndex: "naftaCapacity",
+  },
+  {
+    key: "naftaAvailable",
+    title: "Nafta Available in Liter",
+    dataIndex: "naftaAvailable",
+  },
+
   {
     key: "action",
     title: "Actions",
@@ -67,26 +91,40 @@ let toggleModal = () => {
   });
 };
 
+interface gasStation {
+  id: string;
+  name: string;
+  image: string;
+  address: string;
+  location: {
+    lat: number;
+    log: number;
+  };
+  numberOfHoses: number;
+  queue: string;
+  updatedat: {
+    nanoseconds: number;
+    seconds: number;
+  };
+}
+
 const RegisterGasStations: NextPage = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const isModalOpen = useModalStore((state) => state.isModalOpen);
   const openModal = useModalStore((state) => state.openModal);
+  // const [gasStations, setGasStations] = useState([]);
+  // console.log("gasStations", gasStations);
+  const gasStations = useGasStationsStore((state) => state.gasStations);
+  const syncGasStations = useGasStationsStore((state) => state.syncGasStations);
+  console.log("gas Stations from the store", gasStations);
 
-  const [gasStations, setGasStations] = useState([]);
-  console.log("gasStations", gasStations);
+  const queryGasStationsData = collection(db, "gasstations");
+  const [docs, loading, error] = useCollectionData<any>(queryGasStationsData);
 
-  useEffect(() => {
-    const q = query(collection(db, "gasstations"));
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      let gasStationsArr: any = [];
-      querySnapshot.forEach((doc) => {
-        gasStationsArr.push({ ...doc.data(), id: doc.id });
-      });
-      setGasStations(gasStationsArr);
-    });
-    return () => unsub();
-  }, []);
+  if (docs) {
+    syncGasStations(docs);
+  }
 
   const showModal = () => {
     openModal();
@@ -98,7 +136,7 @@ const RegisterGasStations: NextPage = () => {
         <div className="basis-1/4 z-10">
           <SideBar />
         </div>
-        <div className="basis-3/4">
+        <div className="basis-3/4 px-16">
           <div className="flex flex-col h-full space-y-8 items-center justify-center">
             <button
               onClick={() => showModal()}
@@ -106,14 +144,14 @@ const RegisterGasStations: NextPage = () => {
             >
               Add Gas Station
             </button>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={docs} />
           </div>
         </div>
       </div>
       {isModalOpen && (
         <FormModal
-          loading={loading}
-          setLoading={setLoading}
+          // loading={loading}
+          // setLoading={}
           open={isModalOpen}
           setOpen={showModal}
           isUser={false}

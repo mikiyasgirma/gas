@@ -22,8 +22,16 @@ export interface Test {
   id: string;
 }
 
+export interface Agents {
+  firstName: string;
+  fatherName: string;
+  username: string;
+  assignedTo: string;
+  id: string;
+}
+
 interface AgentsState {
-  agents: Test[];
+  agents: Agents[];
   syncUsers: () => void;
   addUser: (user: User) => void;
   removeUser: (id: string) => void;

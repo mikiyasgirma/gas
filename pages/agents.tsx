@@ -10,6 +10,8 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import FormModal from "../components/FormModal";
 import useModalStore from "../store/modalStore";
 import useAgentsStore from "../store/agentsStore";
+import useGasStationsStore from "../store/gasStationsStore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const toggleModal = () => {};
 
@@ -57,7 +59,7 @@ const columns = [
 ];
 
 const Agents: NextPage = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const isModalOpen = useModalStore((state) => state.isModalOpen);
   const openModal = useModalStore((state) => state.openModal);
   const agents = useAgentsStore((state) => state.agents);
@@ -92,8 +94,8 @@ const Agents: NextPage = () => {
       </div>
       {isModalOpen && (
         <FormModal
-          loading={loading}
-          setLoading={setLoading}
+          // loading={loading}
+          // setLoading={setLoading}
           open={isModalOpen}
           setOpen={showModal}
           isUser={true}
