@@ -35,6 +35,8 @@ interface gasStationStore {
   gasStations: gasStation[];
   syncGasStations: (gasStations: gasStation[]) => void;
   addGasStation: (gasStation: gasStation) => void;
+  removeGasStation: (gasStation: gasStation[], id: string) => void;
+  editGasStation: (gasStation: gasStation[], id: string) => void;
 }
 
 const useGasStationsStore = create<gasStationStore>((set) => ({
@@ -60,6 +62,22 @@ const useGasStationsStore = create<gasStationStore>((set) => ({
           updatedat: gasStation.updatedat,
         },
       ],
+    }));
+  },
+  removeGasStation: (gasStation: gasStation[], id: string) => {
+    const gasStations = gasStation.filter((station) => {
+      return station.id !== id;
+    });
+    set((state) => ({
+      gasStations: gasStations,
+    }));
+  },
+  editGasStation: (gasStation: gasStation[], id: string) => {
+    const gasStations = gasStation.filter((station) => {
+      return station.id !== id;
+    });
+    set((state) => ({
+      gasStations: gasStations,
     }));
   },
 }));

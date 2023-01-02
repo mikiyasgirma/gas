@@ -34,8 +34,8 @@ interface AgentsState {
   agents: Agents[];
   syncUsers: () => void;
   addUser: (user: User) => void;
-  removeUser: (id: string) => void;
-  updateUser: (id: string, user: User) => void;
+  removeUser: (agent: User[], id: string) => void;
+  updateUser: (agent: User[], id: string) => void;
 }
 
 const useAgentsStore = create<AgentsState>((set) => ({
@@ -68,7 +68,17 @@ const useAgentsStore = create<AgentsState>((set) => ({
       console.log(error);
     }
   },
-  removeUser: (id) => {},
-  updateUser: (id) => {},
+  removeUser: (agent: User[], id: string) => {
+    const agents = agent.filter((agent) => {
+      return agent.id !== id;
+    });
+    set({ agents: agents });
+  },
+  updateUser: (agent: User[], id: string) => {
+    const agents = agent.filter((agent) => {
+      return agent.id !== id;
+    });
+    set({ agents: agents });
+  },
 }));
 export default useAgentsStore;

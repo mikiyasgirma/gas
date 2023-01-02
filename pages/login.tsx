@@ -1,6 +1,14 @@
 import { NextPage } from "next";
+import React, { useState } from "react";
 
 const Login: NextPage = () => {
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
+
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+  };
+
   const backgound =
     "https://images.unsplash.com/photo-1585740452884-2a29a1d21514?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
 
@@ -21,7 +29,10 @@ const Login: NextPage = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center self-center  z-10">
+        <form
+          onSubmit={(e) => submitHandler(e)}
+          className="flex justify-center self-center  z-10"
+        >
           <div className="p-12 bg-white mx-auto rounded-2xl w-100 ">
             <div className="mb-4">
               <h3 className="font-semibold text-2xl text-gray-800">Sign In </h3>
@@ -36,6 +47,7 @@ const Login: NextPage = () => {
                   className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
                   type=""
                   placeholder="mail@gmail.com"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -46,6 +58,7 @@ const Login: NextPage = () => {
                   className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
                   type=""
                   placeholder="Enter your password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -93,7 +106,7 @@ const Login: NextPage = () => {
               </span>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
