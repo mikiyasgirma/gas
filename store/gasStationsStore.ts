@@ -23,14 +23,6 @@ interface gasStation {
   naftaAvailable: number;
 }
 
-interface gasStationsInterface {
-  gasStations: gasStation[];
-}
-
-type props = {
-  miko: string;
-};
-
 interface gasStationStore {
   gasStations: gasStation[];
   syncGasStations: (gasStations: gasStation[]) => void;

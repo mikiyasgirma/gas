@@ -12,6 +12,8 @@ import useModalStore from "../store/modalStore";
 import useAgentsStore from "../store/agentsStore";
 import useGasStationsStore from "../store/gasStationsStore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useRouter } from "next/router";
+import useAuthStore from "../store/authStore";
 
 const toggleModal = () => {};
 
@@ -64,7 +66,11 @@ const Agents: NextPage = () => {
   const openModal = useModalStore((state) => state.openModal);
   const agents = useAgentsStore((state) => state.agents);
   const getData = useAgentsStore((state) => state.syncUsers);
-  console.log("users", agents);
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const router = useRouter();
+  useEffect(() => {
+    currentUser ? router.push("/agents") : router.push("login");
+  });
 
   useEffect(() => {
     getData();

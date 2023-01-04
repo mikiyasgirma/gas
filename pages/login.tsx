@@ -1,13 +1,24 @@
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import useAuthStore from "../store/authStore";
 
 const Login: NextPage = () => {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const logIn = useAuthStore((state) => state.login);
+  const router = useRouter();
+  console.log("current user", currentUser);
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    logIn(email, password);
   };
+
+  if (currentUser) {
+    router.push("/");
+  }
 
   const backgound =
     "https://images.unsplash.com/photo-1585740452884-2a29a1d21514?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";

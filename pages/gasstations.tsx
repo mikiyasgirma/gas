@@ -12,6 +12,8 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import useModalStore from "../store/modalStore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import useGasStationsStore from "../store/gasStationsStore";
+import useAuthStore from "../store/authStore";
+import { useRouter } from "next/router";
 
 const columns = [
   {
@@ -117,18 +119,26 @@ const RegisterGasStations: NextPage = () => {
   // console.log("gasStations", gasStations);
   const gasStations = useGasStationsStore((state) => state.gasStations);
   const syncGasStations = useGasStationsStore((state) => state.syncGasStations);
-  console.log("gas Stations from the store", gasStations);
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const router = useRouter();
+  // console.log("gas Stations from the store", gasStations);
 
   const queryGasStationsData = collection(db, "gasstations");
   const [docs, loading, error] = useCollectionData<any>(queryGasStationsData);
 
-  if (docs) {
-    syncGasStations(docs);
-  }
+  useEffect(() => {
+    if (docs) {
+      syncGasStations(docs);
+    }
+  }, []);
 
   const showModal = () => {
     openModal();
   };
+
+  useEffect(() => {
+    currentUser ? router.push("/gasstations") : router.push("login");
+  });
 
   return (
     <Layout>

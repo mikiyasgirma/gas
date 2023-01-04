@@ -9,8 +9,17 @@ import PieChart from "../components/PieChart";
 import SideBar from "../components/SideBar";
 import { db } from "../firebase";
 import Footer from "../components/Footer";
+import useAuthStore from "../store/authStore";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const router = useRouter();
+
+  useEffect(() => {
+    currentUser ? router.push("/") : router.push("login");
+  });
+
   return (
     <Layout>
       <div className="flex">
