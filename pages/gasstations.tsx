@@ -138,7 +138,7 @@ const RegisterGasStations: NextPage = () => {
 
   useEffect(() => {
     currentUser ? router.push("/gasstations") : router.push("login");
-  });
+  }, []);
 
   return (
     <Layout>

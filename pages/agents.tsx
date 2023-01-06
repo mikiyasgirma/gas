@@ -67,10 +67,11 @@ const Agents: NextPage = () => {
   const agents = useAgentsStore((state) => state.agents);
   const getData = useAgentsStore((state) => state.syncUsers);
   const currentUser = useAuthStore((state) => state.currentUser);
+
   const router = useRouter();
   useEffect(() => {
     currentUser ? router.push("/agents") : router.push("login");
-  });
+  }, []);
 
   useEffect(() => {
     getData();

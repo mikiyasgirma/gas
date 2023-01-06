@@ -18,10 +18,11 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     currentUser ? router.push("/") : router.push("login");
-  });
+  }, []);
+  console.log("hello");
 
   return (
-    <Layout>
+    <>
       <div className="flex">
         <div className="basis-1/4 z-10">
           <SideBar />
@@ -45,7 +46,7 @@ const Home: NextPage = () => {
         </div>
       </div>
       <Footer />
-    </Layout>
+    </>
   );
 };
 

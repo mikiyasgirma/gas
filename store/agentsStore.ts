@@ -16,6 +16,8 @@ export interface User {
   fatherName: string;
   username: string;
   assignedTo: string;
+  email: string;
+  role: string;
 }
 
 export interface Test {
@@ -28,6 +30,8 @@ export interface Agents {
   username: string;
   assignedTo: string;
   id: string;
+  email: string;
+  role: string;
 }
 
 interface AgentsState {
@@ -50,13 +54,15 @@ const useAgentsStore = create<AgentsState>((set) => ({
           fatherName: agent.fatherName,
           username: agent.username,
           assignedTo: agent.assignedTo,
+          email: agent.email,
+          role: agent.role,
         } as User,
       ],
     }));
   },
   syncUsers: async () => {
     try {
-      const q = query(collection(db, "agents"));
+      const q = query(collection(db, "users"));
       const unsub = onSnapshot(q, (querySnapshot) => {
         let agentsArr: any = [];
         querySnapshot.forEach((doc) => {
