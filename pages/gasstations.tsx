@@ -124,9 +124,7 @@ const RegisterGasStations: NextPage = () => {
   // console.log("gas Stations from the store", gasStations);
 
   useEffect(() => {
-    // if (docs) {
     syncGasStations();
-    // }
   }, []);
 
   const showModal = () => {

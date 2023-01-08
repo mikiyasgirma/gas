@@ -2,10 +2,11 @@ import { Button, Form, Input, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import React from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import useModalStore from "../store/modalStore";
 import useUserStore from "../store/agentsStore";
 import useGasStationsStore from "../store/gasStationsStore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const UserRegistrationForm = () => {
   const closeModal = useModalStore((state) => state.closeModal);
@@ -19,10 +20,12 @@ const UserRegistrationForm = () => {
   };
 
   const onFinish = async (values: any) => {
+    const auth = getAuth();
     try {
-      const docRef = await addDoc(collection(db, "agents"), values);
+      const docRef = await addDoc(collection(db, "users"), values);
       console.log("Document written with ID: ", docRef.id);
       addUser(values);
+      createUserWithEmailAndPassword(auth, values.email, values.password);
     } catch (error) {
       console.log(console.error());
     }
@@ -31,28 +34,37 @@ const UserRegistrationForm = () => {
 
   return (
     <Form form={form} name="control-hooks" onFinish={onFinish}>
-      <Form.Item name="firstName" label="First name">
+      <Form.Item name="firstName" label="First name" required>
         <Input placeholder="Place user first name" />
       </Form.Item>
-      <Form.Item name="fatherName" label="Last name">
+      <Form.Item name="lastName" label="Last name" required>
         <Input placeholder="Place user last name" />
       </Form.Item>
-      <Form.Item name="email" label="Email">
+      <Form.Item name="email" label="Email" required>
         <Input placeholder="Place user email address" />
       </Form.Item>
-      <Form.Item label="Role">
+      <Form.Item name="password" label="Password" required>
+        <Input placeholder="Create a password for the user" />
+      </Form.Item>
+      <Form.Item name="role" label="Role" required>
         <Select showSearch placeholder="Select role for the user">
-          <Select.Option value="admin">Admin</Select.Option>
-          <Select.Option value="agent">Agent</Select.Option>
+          <Select.Option key="admin" value="admin">
+            Admin
+          </Select.Option>
+          <Select.Option key="agent" value="agent">
+            Agent
+          </Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item label="Assigned To Gas Station">
+      <Form.Item name="assignedTo" label="Assigned To Gas Station" required>
         <Select
           showSearch
           placeholder="Assign gas station if only the role is agent"
         >
           {gasStations.map((data) => (
-            <Select.Option value="demo">{data.name}</Select.Option>
+            <Select.Option key={data.id} value={data.name}>
+              {data.name}
+            </Select.Option>
           ))}
         </Select>
       </Form.Item>

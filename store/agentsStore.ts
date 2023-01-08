@@ -49,8 +49,8 @@ const useAgentsStore = create<AgentsState>((set) => ({
           firstName: agent.firstName,
           lastName: agent.lastName,
           email: agent.email,
-          assignedTo: agent.assignedTo,
           role: agent.role,
+          assignedTo: agent.assignedTo,
         } as User,
       ],
     }));

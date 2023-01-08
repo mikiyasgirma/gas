@@ -24,14 +24,19 @@ const columns = [
     dataIndex: "firstName",
   },
   {
-    key: "fatherName",
-    title: "Father Name",
-    dataIndex: "fatherName",
+    key: "lastName",
+    title: "Last Name",
+    dataIndex: "lastName",
   },
   {
-    key: "username",
-    title: "Username",
-    dataIndex: "username",
+    key: "email",
+    title: "Email",
+    dataIndex: "email",
+  },
+  {
+    key: "role",
+    title: "Role",
+    dataIndex: "role",
   },
   {
     key: "assignedTo",
@@ -67,6 +72,7 @@ const Agents: NextPage = () => {
   const agents = useAgentsStore((state) => state.agents);
   const getData = useAgentsStore((state) => state.syncUsers);
   const currentUser = useAuthStore((state) => state.currentUser);
+  const syncGasStations = useGasStationsStore((state) => state.syncGasStations);
 
   const router = useRouter();
   useEffect(() => {
@@ -75,6 +81,7 @@ const Agents: NextPage = () => {
 
   useEffect(() => {
     getData();
+    syncGasStations();
   }, []);
 
   const showModal = () => {
