@@ -24,7 +24,7 @@ const Navbar = (): JSX.Element => {
 
   return (
     <div className="px-6 py-12 flex flex-col space-y-4 text-gray-400 text-base uppercase">
-      {role && role.role === "superadmin" && (
+      {role && role.role === "admin" && (
         <Link href="/">
           <div className="flex items-center space-x-6">
             <AiOutlineHome size={24} />
@@ -46,7 +46,7 @@ const Navbar = (): JSX.Element => {
           </div>
         </div>
       </Link>
-      {role && role.role === "superadmin" && (
+      {role && role.role === "admin" && (
         <Link href="/agents">
           <div className="flex items-center space-x-6">
             <FiUsers size={24} />

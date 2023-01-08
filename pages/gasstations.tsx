@@ -123,13 +123,10 @@ const RegisterGasStations: NextPage = () => {
   const router = useRouter();
   // console.log("gas Stations from the store", gasStations);
 
-  const queryGasStationsData = collection(db, "gasstations");
-  const [docs, loading, error] = useCollectionData<any>(queryGasStationsData);
-
   useEffect(() => {
-    if (docs) {
-      syncGasStations(docs);
-    }
+    // if (docs) {
+    syncGasStations();
+    // }
   }, []);
 
   const showModal = () => {
@@ -154,7 +151,7 @@ const RegisterGasStations: NextPage = () => {
             >
               Add Gas Station
             </button>
-            <Table columns={columns} dataSource={docs} />
+            <Table columns={columns} dataSource={gasStations} />
           </div>
         </div>
       </div>

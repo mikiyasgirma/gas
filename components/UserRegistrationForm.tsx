@@ -12,6 +12,7 @@ const UserRegistrationForm = () => {
   const addUser = useUserStore((state) => state.addUser);
   const [form] = Form.useForm();
   const gasStations = useGasStationsStore((state) => state.gasStations);
+  console.log("gas stations from", gasStations);
 
   const onReset = () => {
     form.resetFields();
@@ -31,16 +32,25 @@ const UserRegistrationForm = () => {
   return (
     <Form form={form} name="control-hooks" onFinish={onFinish}>
       <Form.Item name="firstName" label="First name">
-        <Input placeholder="Place agent first name" />
+        <Input placeholder="Place user first name" />
       </Form.Item>
       <Form.Item name="fatherName" label="Last name">
-        <Input placeholder="Place agent last name" />
+        <Input placeholder="Place user last name" />
       </Form.Item>
-      <Form.Item name="username" label="username">
-        <Input placeholder="Place agent last name" />
+      <Form.Item name="email" label="Email">
+        <Input placeholder="Place user email address" />
       </Form.Item>
-      <Form.Item label="Select">
-        <Select>
+      <Form.Item label="Role">
+        <Select showSearch placeholder="Select role for the user">
+          <Select.Option value="admin">Admin</Select.Option>
+          <Select.Option value="agent">Agent</Select.Option>
+        </Select>
+      </Form.Item>
+      <Form.Item label="Assigned To Gas Station">
+        <Select
+          showSearch
+          placeholder="Assign gas station if only the role is agent"
+        >
           {gasStations.map((data) => (
             <Select.Option value="demo">{data.name}</Select.Option>
           ))}

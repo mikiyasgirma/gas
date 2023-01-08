@@ -6,15 +6,12 @@ import {
   query,
   QuerySnapshot,
 } from "firebase/firestore";
-import { async } from "@firebase/util";
 import { db } from "../firebase";
-import { useEffect } from "react";
 
 export interface User {
   id: string;
   firstName: string;
-  fatherName: string;
-  username: string;
+  lastName: string;
   assignedTo: string;
   email: string;
   role: string;
@@ -26,8 +23,7 @@ export interface Test {
 
 export interface Agents {
   firstName: string;
-  fatherName: string;
-  username: string;
+  lastName: string;
   assignedTo: string;
   id: string;
   email: string;
@@ -51,10 +47,9 @@ const useAgentsStore = create<AgentsState>((set) => ({
         {
           id: agent.id,
           firstName: agent.firstName,
-          fatherName: agent.fatherName,
-          username: agent.username,
-          assignedTo: agent.assignedTo,
+          lastName: agent.lastName,
           email: agent.email,
+          assignedTo: agent.assignedTo,
           role: agent.role,
         } as User,
       ],
