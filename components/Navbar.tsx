@@ -13,14 +13,20 @@ const Navbar = (): JSX.Element => {
   const currentUser = useAuthStore((state) => state.currentUser);
   const agents = useAgentsStore((state) => state.agents);
   const getData = useAgentsStore((state) => state.syncUsers);
+  const logout = useAuthStore((state) => state.logout);
   useEffect(() => {
     getData();
   }, []);
 
-  const role = agents.find((agent) => agent.email === currentUser.user.email);
+  const role = agents.find((agent) => agent.email === currentUser?.user.email);
   console.log("role", role?.role);
   console.log("current User", currentUser?.user.email);
   console.log("agents", agents);
+
+  const logoutHandler = () => {
+    logout();
+    router.push("/login");
+  };
 
   return (
     <div className="px-6 py-12 flex flex-col space-y-4 text-gray-400 text-base uppercase">
@@ -63,9 +69,7 @@ const Navbar = (): JSX.Element => {
       <div className="fixed bottom-16">
         <div className="flex items-center space-x-6">
           <CiLogout size={24} />
-          <Link href="/login">
-            <div>Log out</div>
-          </Link>
+          <button onClick={() => logoutHandler()}>Log out</button>
         </div>
       </div>
     </div>

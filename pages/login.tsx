@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import Spinner from "../components/Spinner";
 import useAuthStore from "../store/authStore";
 
 const Login: NextPage = () => {
@@ -8,6 +9,7 @@ const Login: NextPage = () => {
   const [password, setPassword] = useState<string>("");
   const currentUser = useAuthStore((state) => state.currentUser);
   const logIn = useAuthStore((state) => state.login);
+  const loading = useAuthStore((state) => state.loading);
   const router = useRouter();
   console.log("current user", currentUser);
 
@@ -22,6 +24,8 @@ const Login: NextPage = () => {
 
   const backgound =
     "https://images.unsplash.com/photo-1585740452884-2a29a1d21514?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
+
+  if (loading) return <Spinner type="balls" color="#2B3A55" />;
 
   return (
     <div
@@ -67,7 +71,7 @@ const Login: NextPage = () => {
                 </label>
                 <input
                   className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
-                  type=""
+                  type="password"
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
                 />

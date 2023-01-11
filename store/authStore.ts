@@ -15,11 +15,13 @@ const useAuthStore = create<AuthInterface>((set) => ({
   loading: false,
   error: "",
   login: (email: string, password: string) => {
+    set({ loading: true });
     signInWithEmailAndPassword(auth, email, password)
       .then((user) => {
         set((state) => ({
           ...state,
           currentUser: user,
+          loading: false,
         }));
       })
       .catch((error) => {
@@ -27,7 +29,14 @@ const useAuthStore = create<AuthInterface>((set) => ({
       });
   },
 
-  logout: () => auth.signOut(),
+  logout: () =>
+    signOut(auth)
+      .then(() => {
+        set({ currentUser: undefined });
+      })
+      .catch((error) => {
+        console.log(error);
+      }),
 }));
 
 export default useAuthStore;
