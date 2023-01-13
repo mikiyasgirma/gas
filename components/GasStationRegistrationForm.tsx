@@ -94,6 +94,10 @@ const GasStationRegistrationForm = (): JSX.Element => {
     closeModal();
     const gasStationsData = {
       ...values,
+      geoPoint: {
+        latitude: coords?.latitude,
+        longitude: coords?.longitude,
+      },
       image: imageUrl,
       // location: coords,
     };

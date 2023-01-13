@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 const SideBar = (): JSX.Element => {
   return (
-    <div className="bg-primary h-screen z-10 w-full">
+    <div className="bg-primary min-h-screen h-full z-10 w-full">
       <div className="pt-24 pb-6">
         <Avatar
           name="Jon Doe"

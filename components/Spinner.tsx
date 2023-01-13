@@ -7,7 +7,7 @@ type props = {
 };
 
 const Spinner = ({ type, color }: props) => (
-  <ReactLoading type={type} color={color} height={667} width={375} />
+  <ReactLoading type={type} color={color} height={40} width={70} />
 );
 
 export default Spinner;

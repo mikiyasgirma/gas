@@ -25,8 +25,6 @@ const Login: NextPage = () => {
   const backgound =
     "https://images.unsplash.com/photo-1585740452884-2a29a1d21514?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
 
-  if (loading) return <Spinner type="balls" color="#2B3A55" />;
-
   return (
     <div
       className="bg-no-repeat bg-cover bg-center relative"
@@ -97,14 +95,18 @@ const Login: NextPage = () => {
                   </a>
                 </div>
               </div>
-              <div>
-                <button
-                  type="submit"
-                  className="w-full flex justify-center bg-primary  hover:bg-green-500 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
-                >
-                  Sign in
-                </button>
-              </div>
+              {loading ? (
+                <Spinner type="balls" color="#2B3A55" />
+              ) : (
+                <div>
+                  <button
+                    type="submit"
+                    className="w-full flex justify-center bg-primary  hover:bg-green-500 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
+                  >
+                    Sign in
+                  </button>
+                </div>
+              )}
             </div>
             <div className="pt-5 text-center text-gray-400 text-xs">
               <span>

@@ -8,9 +8,9 @@ interface gasStation {
   name: string;
   image: string;
   address: string;
-  location: {
-    lat: number;
-    log: number;
+  geoPoint: {
+    latitude: number;
+    longitude: number;
   };
   numberOfHoses: number;
   updatedat: {
@@ -56,7 +56,7 @@ const useGasStationsStore = create<gasStationStore>((set) => ({
           name: gasStation.name,
           image: gasStation.image,
           address: gasStation.address,
-          location: gasStation.location,
+          geoPoint: gasStation.geoPoint,
           numberOfHoses: gasStation.numberOfHoses,
           naftaAvailable: gasStation.naftaAvailable,
           naftaCapacity: gasStation.naftaCapacity,

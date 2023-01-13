@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   console.log("hello");
 
   return (
-    <>
+    <Layout>
       <div className="flex">
         <div className="basis-1/4 z-10">
           <SideBar />
@@ -45,8 +45,8 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
+      {/* <Footer /> */}
+    </Layout>
   );
 };
 
