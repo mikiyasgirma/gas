@@ -24,7 +24,7 @@ const ConfirmModal: React.FC<props> = ({ open, handleOk, handleCancel }) => {
           </Button>,
         ]}
       >
-        Are you sure you want to delete the gas station information?
+        Are you sure you want to delete the record?
       </Modal>
     </>
   );

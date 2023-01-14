@@ -1,4 +1,10 @@
-import { collection, onSnapshot, query } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+} from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import create from "zustand";
 import { db } from "../firebase";
@@ -27,7 +33,7 @@ interface gasStationStore {
   gasStations: gasStation[];
   syncGasStations: () => void;
   addGasStation: (gasStation: gasStation) => void;
-  removeGasStation: (gasStation: gasStation[], id: string) => void;
+  removeGasStation: (id: string) => void;
   editGasStation: (gasStation: gasStation[], id: string) => void;
 }
 
@@ -67,13 +73,12 @@ const useGasStationsStore = create<gasStationStore>((set) => ({
       ],
     }));
   },
-  removeGasStation: (gasStation: gasStation[], id: string) => {
-    const gasStations = gasStation.filter((station) => {
-      return station.id !== id;
-    });
-    set((state) => ({
-      gasStations: gasStations,
-    }));
+  removeGasStation: async (id: string) => {
+    try {
+      const res = await deleteDoc(doc(db, "gasstations", id));
+    } catch (error) {
+      console.log(error);
+    }
   },
   editGasStation: (gasStation: gasStation[], id: string) => {
     const gasStations = gasStation.filter((station) => {

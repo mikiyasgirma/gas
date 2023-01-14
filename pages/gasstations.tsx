@@ -23,6 +23,10 @@ const RegisterGasStations: NextPage = () => {
   const gasStations = useGasStationsStore((state) => state.gasStations);
   const syncGasStations = useGasStationsStore((state) => state.syncGasStations);
   const currentUser = useAuthStore((state) => state.currentUser);
+  const [deleteRecordId, setDeleteRecordId] = useState("");
+  const deleteGasStation = useGasStationsStore(
+    (state) => state.removeGasStation
+  );
   const router = useRouter();
 
   const columns = [
@@ -77,16 +81,17 @@ const RegisterGasStations: NextPage = () => {
       key: "action",
       title: "Actions",
       render: (record: any) => {
+        console.log("record", record);
         return (
           <>
             <div className="flex space-x-3">
               <EditOutlined
                 style={{ color: "black" }}
-                onClick={() => setConfirmModalOpen(!isConfirmModalOpen)}
+                onClick={() => toggleModal()}
               />
               <DeleteOutlined
                 style={{ color: "red" }}
-                onClick={() => toggleModal()}
+                onClick={() => toggleDeleteModal(record.id)}
               />
             </div>
           </>
@@ -115,7 +120,14 @@ const RegisterGasStations: NextPage = () => {
     currentUser ? router.push("/gasstations") : router.push("login");
   }, []);
 
-  const handleOk = () => {};
+  const handleOk = () => {
+    deleteGasStation(deleteRecordId);
+    setConfirmModalOpen(false);
+  };
+  const toggleDeleteModal = (id: string) => {
+    setConfirmModalOpen(!isConfirmModalOpen);
+    setDeleteRecordId(id);
+  };
   const handleCancel = () => {
     setConfirmModalOpen(!isConfirmModalOpen);
   };
