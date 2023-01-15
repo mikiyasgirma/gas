@@ -3,7 +3,7 @@ import Image from "next/image";
 type AvatarProps = {
   image: string;
   name: string;
-  role: string;
+  role: string | undefined;
 };
 
 const Avatar = ({ image, name, role }: AvatarProps): JSX.Element => {
