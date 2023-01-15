@@ -70,6 +70,7 @@ const GasStationRegistrationForm = (): JSX.Element => {
       getBase64(info.file.originFileObj as RcFile, (url) => {
         console.log("image Object", info.file.originFileObj);
         const imageRef = ref(storage, info.file.originFileObj?.name);
+        // @ts-ignore
         uploadBytes(imageRef, info.file.originFileObj).then(() => {
           getDownloadURL(imageRef).then((url) => {
             setImageUrl(url);
@@ -141,7 +142,6 @@ const GasStationRegistrationForm = (): JSX.Element => {
               uploadButton
             )}
           </Upload>
-          <ImageUploader />
           <Form.Item name="name" label="Gas Station Name">
             <Input placeholder="input gas station name" />
           </Form.Item>
