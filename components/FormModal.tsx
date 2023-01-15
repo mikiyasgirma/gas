@@ -4,9 +4,12 @@ import { Button, Modal } from "antd";
 import InputForm from "./InputForm";
 import GasStationRegistrationForm from "./GasStationRegistrationForm";
 import UserRegistrationForm from "./UserRegistrationForm";
+import UserEditForm from "./UserEditForm";
 
 type props = {
   // loading: boolean;
+  isUserEdit: boolean;
+  userId: string;
   open: boolean;
   isUser: boolean;
   isGasStation: boolean;
@@ -21,6 +24,8 @@ const FormModal = ({
   setOpen,
   isUser,
   isGasStation,
+  isUserEdit,
+  userId,
 }: props): JSX.Element => {
   const handleOk = () => {
     // setLoading(true);
@@ -60,6 +65,7 @@ const FormModal = ({
     >
       {isGasStation && <GasStationRegistrationForm />}
       {isUser && <UserRegistrationForm />}
+      {isUserEdit && <UserEditForm userId={userId} />}
     </Modal>
   );
 };

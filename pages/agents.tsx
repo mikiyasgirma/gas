@@ -15,17 +15,22 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useRouter } from "next/router";
 import useAuthStore from "../store/authStore";
 import ConfirmModal from "../components/ConfirmModal";
+import useEditModalStore from "../store/editModalStore";
 
 const Agents: NextPage = () => {
   const isModalOpen = useModalStore((state) => state.isModalOpen);
+  const isEditModalOpen = useEditModalStore((state) => state.isEditModalOpen);
+  const openEditModal = useEditModalStore((state) => state.openEditModal);
   const openModal = useModalStore((state) => state.openModal);
   const agents = useAgentsStore((state) => state.agents);
   const getData = useAgentsStore((state) => state.syncUsers);
   const currentUser = useAuthStore((state) => state.currentUser);
   const syncGasStations = useGasStationsStore((state) => state.syncGasStations);
   const [deleteRecordId, setDeleteRecordId] = useState("");
+  const [selectedEditRecordId, setSelectedEditRecordId] = useState("");
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const deleteUser = useAgentsStore((state) => state.removeUser);
+  console.log("edit Modal", isEditModalOpen);
 
   const columns = [
     {
@@ -62,7 +67,7 @@ const Agents: NextPage = () => {
             <div className="flex space-x-3">
               <EditOutlined
                 style={{ color: "black" }}
-                onClick={() => toggleModal()}
+                onClick={() => toggleEdit(record.id)}
               />
               <DeleteOutlined
                 style={{ color: "red" }}
@@ -108,6 +113,16 @@ const Agents: NextPage = () => {
     setConfirmModalOpen(!isConfirmModalOpen);
   };
 
+  const editUser = (id: string) => {
+    const editingUser = agents.find((user) => user.id == id);
+    console.log(editingUser);
+  };
+
+  const toggleEdit = (id: string) => {
+    openEditModal();
+    setSelectedEditRecordId(id);
+  };
+
   return (
     <Layout>
       <div className="flex">
@@ -133,7 +148,21 @@ const Agents: NextPage = () => {
           open={isModalOpen}
           setOpen={showModal}
           isUser={true}
+          userId=""
           isGasStation={false}
+          isUserEdit={false}
+        />
+      )}
+      {isEditModalOpen && (
+        <FormModal
+          // loading={loading}
+          // setLoading={setLoading}
+          open={isEditModalOpen}
+          setOpen={openEditModal}
+          isUser={false}
+          isGasStation={false}
+          isUserEdit={true}
+          userId={selectedEditRecordId}
         />
       )}
       {isConfirmModalOpen && (

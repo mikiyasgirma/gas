@@ -7,44 +7,60 @@ import useModalStore from "../store/modalStore";
 import useUserStore from "../store/agentsStore";
 import useGasStationsStore from "../store/gasStationsStore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import useEditModalStore from "../store/editModalStore";
+import useAgentsStore from "../store/agentsStore";
 
-const UserRegistrationForm = () => {
-  const closeModal = useModalStore((state) => state.closeModal);
-  const addUser = useUserStore((state) => state.addUser);
+type props = {
+  userId: string;
+};
+
+const UserRegistrationForm = ({ userId }: props) => {
+  const closeModal = useEditModalStore((state) => state.closeEditModal);
   const [form] = Form.useForm();
   const gasStations = useGasStationsStore((state) => state.gasStations);
+  const users = useAgentsStore((state) => state.agents);
+  const updateUser = useAgentsStore((state) => state.updateUser);
   console.log("gas stations from", gasStations);
 
-  const onReset = () => {
-    form.resetFields();
-  };
+  const editUser = users.find((user) => user.id == userId);
+  console.log(editUser);
 
   const onFinish = async (values: any) => {
-    const auth = getAuth();
-    try {
-      const docRef = await addDoc(collection(db, "users"), values);
-      console.log("Document written with ID: ", docRef.id);
-      addUser(values);
-      createUserWithEmailAndPassword(auth, values.email, values.password);
-    } catch (error) {
-      console.log(console.error());
-    }
+    console.log(values);
+    updateUser(values, userId);
     closeModal();
   };
 
   return (
-    <Form form={form} name="control-hooks" onFinish={onFinish}>
+    <Form
+      form={form}
+      name="control-hooks"
+      onFinish={onFinish}
+      initialValues={{
+        firstName: editUser?.firstName,
+        lastName: editUser?.lastName,
+        email: editUser?.email,
+        role: editUser?.role,
+        assignedTo: editUser?.assignedTo,
+      }}
+    >
       <Form.Item name="firstName" label="First name" required>
-        <Input placeholder="Place user first name" />
+        <Input />
       </Form.Item>
       <Form.Item name="lastName" label="Last name" required>
-        <Input placeholder="Place user last name" />
+        <Input />
       </Form.Item>
       <Form.Item name="email" label="Email" required>
-        <Input placeholder="Place user email address" />
+        <Input
+          placeholder="you can not edit users registered email"
+          disabled={true}
+        />
       </Form.Item>
       <Form.Item name="password" label="Password" required>
-        <Input placeholder="Create a password for the user" />
+        <Input
+          placeholder="You can not edit users registered password"
+          disabled={true}
+        />
       </Form.Item>
       <Form.Item name="role" label="Role" required>
         <Select showSearch placeholder="Select role for the user">
@@ -77,7 +93,7 @@ const UserRegistrationForm = () => {
           htmlType="submit"
           className="border-gray-200 border-2 text-gray-900"
         >
-          Submit
+          Edit
         </Button>
       </div>
     </Form>
