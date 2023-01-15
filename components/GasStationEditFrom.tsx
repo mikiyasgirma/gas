@@ -6,6 +6,7 @@ import { addDoc, collection } from "firebase/firestore";
 import useGasStationsStore from "../store/gasStationsStore";
 import { db } from "../firebase";
 import useEditModalStore from "../store/editModalStore";
+import useAuthStore from "../store/authStore";
 
 type props = {
   gasStationId: string;
@@ -18,7 +19,10 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
   const agents = useAgentsStore((state) => state.agents);
   const updateGasStation = useGasStationsStore((state) => state.editGasStation);
   const gasStations = useGasStationsStore((state) => state.gasStations);
+  const currentUser = useAuthStore((state) => state.currentUser);
   console.log("agents from form", agents);
+
+  const role = agents.find((agent) => agent.email === currentUser?.user.email);
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } =
     useGeolocated({
@@ -38,14 +42,24 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
   const onFinish = async (values: any) => {
     console.log(values);
     const formValuesWithDefaultValues: any = {
-      name: values.name,
+      name: role && role.role === "agent" ? editGasStation?.name : values.name,
       image: editGasStation?.image,
-      address: values.address,
+      address:
+        role && role.role === "agent"
+          ? editGasStation?.address
+          : values.address,
       geoPoint: editGasStation?.geoPoint,
-      numberOfHoses: values.numberOfHoses,
-      benzilCapacity: values.benzilCapacity,
+      numberOfHoses:
+        role && role.role === "agent"
+          ? editGasStation?.address
+          : values.address,
+      benzilCapacity:
+        role && role.role === "agent"
+          ? editGasStation?.benzilCapacity
+          : values.benzilCapacity,
       benzilAvailable: values.benzilAvailable,
-      naftaCapacity: values.naftaCapacity,
+      naftaCapacity:
+        role && role.role === "agent" ? editGasStation?.name : values.name,
       naftaAvailable: values.naftaAvailable,
       updatedat: editGasStation?.updatedat,
     };
@@ -80,20 +94,22 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
         <div>
           <p className="font-semibold text-base py-4">Upload photo</p>
           <Form.Item name="name" label="Gas Station Name">
-            <Input />
+            <Input disabled={role && role.role === "agent" ? true : false} />
           </Form.Item>
           <Form.Item name="address" label="Gas Station Address">
-            <Input />
+            <Input disabled={role && role.role === "agent" ? true : false} />
           </Form.Item>
           <Form.Item name="numberOfHoses" label="Number of Hoses">
-            <Input />
+            <Input disabled={role && role.role === "agent" ? true : false} />
           </Form.Item>
+
           {locationPicked ? (
             <div className="flex items-center space-x-2">
               <button
                 className="text-white bg-primary py-2 px-4 border border-1 rounded-md"
                 onClick={locationHandler}
                 type="button"
+                disabled={role && role.role === "agent" ? true : false}
               >
                 Location Picked
               </button>
@@ -104,6 +120,7 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
                 className="text-black hover:bg-sky-800 hover:text-white py-2 px-4 border border-1 rounded-md"
                 onClick={locationHandler}
                 type="button"
+                disabled={role && role.role === "agent" ? true : false}
               >
                 Pick current location
               </button>
@@ -115,7 +132,7 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
           <div>
             <div className="font-semibold text-base">Benzil</div>
             <Form.Item name="benzilCapacity" label="Capacity in Liter">
-              <Input />
+              <Input disabled={role && role.role === "agent" ? true : false} />
             </Form.Item>
             <Form.Item name="benzilAvailable" label="Available in Liter">
               <Input />
@@ -124,7 +141,7 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
           <div>
             <div className="font-semibold text-lg">Nafta</div>
             <Form.Item name="naftaCapacity" label="Capacity in Liter">
-              <Input />
+              <Input disabled={role && role.role === "agent" ? true : false} />
             </Form.Item>
             <Form.Item name="naftaAvailable" label="Available in Liter">
               <Input />
