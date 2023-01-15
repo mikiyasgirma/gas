@@ -15,6 +15,7 @@ import useGasStationsStore from "../store/gasStationsStore";
 import useAuthStore from "../store/authStore";
 import { useRouter } from "next/router";
 import ConfirmModal from "../components/ConfirmModal";
+import useEditModalStore from "../store/editModalStore";
 
 const RegisterGasStations: NextPage = () => {
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -24,10 +25,14 @@ const RegisterGasStations: NextPage = () => {
   const syncGasStations = useGasStationsStore((state) => state.syncGasStations);
   const currentUser = useAuthStore((state) => state.currentUser);
   const [deleteRecordId, setDeleteRecordId] = useState("");
+  const isEditModalOpen = useEditModalStore((state) => state.isEditModalOpen);
+  const openEditModal = useEditModalStore((state) => state.openEditModal);
+  const [selectedEditRecordId, setSelectedEditRecordId] = useState("");
   const deleteGasStation = useGasStationsStore(
     (state) => state.removeGasStation
   );
   const router = useRouter();
+  console.log("edit Modal", isEditModalOpen);
 
   const columns = [
     {
@@ -87,7 +92,7 @@ const RegisterGasStations: NextPage = () => {
             <div className="flex space-x-3">
               <EditOutlined
                 style={{ color: "black" }}
-                onClick={() => toggleModal()}
+                onClick={() => toggleEdit(record.id)}
               />
               <DeleteOutlined
                 style={{ color: "red" }}
@@ -100,12 +105,9 @@ const RegisterGasStations: NextPage = () => {
     },
   ];
 
-  let toggleModal = () => {
-    Modal.confirm({
-      title: "Are you sure you want to remove the Gas Station?",
-      onOk: () => console.log("oked"),
-      onCancel: () => console.log("canceld"),
-    });
+  const toggleEdit = (id: string) => {
+    openEditModal();
+    setSelectedEditRecordId(id);
   };
 
   useEffect(() => {
@@ -158,6 +160,24 @@ const RegisterGasStations: NextPage = () => {
           setOpen={showModal}
           isUser={false}
           isGasStation={true}
+          isUserEdit={false}
+          userId=""
+          isGasStationEdit={false}
+          gasStationId=""
+        />
+      )}
+      {isEditModalOpen && (
+        <FormModal
+          // loading={loading}
+          // setLoading={}
+          open={isEditModalOpen}
+          setOpen={openEditModal}
+          isUser={false}
+          isGasStation={false}
+          isUserEdit={false}
+          userId=""
+          gasStationId={selectedEditRecordId}
+          isGasStationEdit={true}
         />
       )}
       {isConfirmModalOpen && (

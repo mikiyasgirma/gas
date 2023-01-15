@@ -5,10 +5,13 @@ import InputForm from "./InputForm";
 import GasStationRegistrationForm from "./GasStationRegistrationForm";
 import UserRegistrationForm from "./UserRegistrationForm";
 import UserEditForm from "./UserEditForm";
+import GasStationEditForm from "./GasStationEditFrom";
 
 type props = {
   // loading: boolean;
   isUserEdit: boolean;
+  isGasStationEdit: boolean;
+  gasStationId: string;
   userId: string;
   open: boolean;
   isUser: boolean;
@@ -26,6 +29,8 @@ const FormModal = ({
   isGasStation,
   isUserEdit,
   userId,
+  isGasStationEdit,
+  gasStationId,
 }: props): JSX.Element => {
   const handleOk = () => {
     // setLoading(true);
@@ -66,6 +71,7 @@ const FormModal = ({
       {isGasStation && <GasStationRegistrationForm />}
       {isUser && <UserRegistrationForm />}
       {isUserEdit && <UserEditForm userId={userId} />}
+      {isGasStationEdit && <GasStationEditForm gasStationId={gasStationId} />}
     </Modal>
   );
 };

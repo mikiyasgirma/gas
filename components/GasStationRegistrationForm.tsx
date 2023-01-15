@@ -10,6 +10,7 @@ import { addDoc, collection } from "firebase/firestore";
 import useGasStationsStore from "../store/gasStationsStore";
 import { db } from "../firebase";
 import { async } from "@firebase/util";
+import date from "date-and-time";
 
 type props = {};
 
@@ -50,6 +51,8 @@ const GasStationRegistrationForm = (): JSX.Element => {
   const agents = useAgentsStore((state) => state.agents);
   const addGasStations = useGasStationsStore((state) => state.addGasStation);
   console.log("agents from form", agents);
+
+  const now = new Date();
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled, getPosition } =
     useGeolocated({
@@ -99,7 +102,7 @@ const GasStationRegistrationForm = (): JSX.Element => {
         longitude: coords?.longitude,
       },
       image: imageUrl,
-      // location: coords,
+      updatedat: date.format(now, "YYYY/MM/DD HH:mm:ss"),
     };
     try {
       const docRef = await addDoc(

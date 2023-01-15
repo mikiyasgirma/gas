@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "chart.js": "^4.1.1",
+    "date-and-time": "^2.4.2",
     "faker": "^6.6.6",
     "firebase": "^9.15.0",
     "next": "latest",

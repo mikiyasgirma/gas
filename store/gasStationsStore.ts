@@ -4,6 +4,7 @@ import {
   doc,
   onSnapshot,
   query,
+  setDoc,
 } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import create from "zustand";
@@ -34,7 +35,7 @@ interface gasStationStore {
   syncGasStations: () => void;
   addGasStation: (gasStation: gasStation) => void;
   removeGasStation: (id: string) => void;
-  editGasStation: (gasStation: gasStation[], id: string) => void;
+  editGasStation: (gasStation: gasStation, id: string) => void;
 }
 
 const useGasStationsStore = create<gasStationStore>((set) => ({
@@ -80,13 +81,24 @@ const useGasStationsStore = create<gasStationStore>((set) => ({
       console.log(error);
     }
   },
-  editGasStation: (gasStation: gasStation[], id: string) => {
-    const gasStations = gasStation.filter((station) => {
-      return station.id !== id;
-    });
-    set((state) => ({
-      gasStations: gasStations,
-    }));
+  editGasStation: async (gasStation: gasStation, id: string) => {
+    console.log("edit Gas Station store", gasStation);
+    try {
+      await setDoc(doc(db, "gasstations", id), {
+        name: gasStation.name,
+        // image: gasStation.image,
+        address: gasStation.address,
+        // geoPoint: gasStation.geoPoint,
+        numberOfHoses: gasStation.numberOfHoses,
+        naftaAvailable: gasStation.naftaAvailable,
+        naftaCapacity: gasStation.naftaCapacity,
+        benzilCapacity: gasStation.benzilCapacity,
+        benzilAvailable: gasStation.benzilAvailable,
+        updatedat: gasStation.updatedat,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
 }));
 export default useGasStationsStore;

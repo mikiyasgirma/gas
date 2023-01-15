@@ -1080,6 +1080,11 @@ d3-voronoi@^1.1.2:
   resolved "https://registry.yarnpkg.com/d3-voronoi/-/d3-voronoi-1.1.4.tgz#dd3c78d7653d2bb359284ae478645d95944c8297"
   integrity sha512-dArJ32hchFsrQ8uMiTBLq256MpnZjeuBtdHpaDlYuQyjU0CVzCJl/BVW+SkszaAeH95D/8gxqAhgx0ouAWAfRg==
 
+date-and-time@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/date-and-time/-/date-and-time-2.4.2.tgz#3a0382d33e57714c7949301d14bc1a454b8f3807"
+  integrity sha512-h+GwuCLcrDblUt2pXdVuKJJenwNMNtEw1H/eWqBdrkOziTTPzgAkzyCLXZ+QXgtOEheO59cZa8DcObYwE6NLDA==
+
 dayjs@^1.11.1:
   version "1.11.7"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"

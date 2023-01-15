@@ -80,14 +80,6 @@ const Agents: NextPage = () => {
     },
   ];
 
-  let toggleModal = () => {
-    Modal.confirm({
-      title: "Are you sure you want to remove the Gas Station?",
-      onOk: () => console.log("oked"),
-      onCancel: () => console.log("canceld"),
-    });
-  };
-
   const router = useRouter();
   useEffect(() => {
     currentUser ? router.push("/agents") : router.push("login");
@@ -111,11 +103,6 @@ const Agents: NextPage = () => {
   };
   const handleCancel = () => {
     setConfirmModalOpen(!isConfirmModalOpen);
-  };
-
-  const editUser = (id: string) => {
-    const editingUser = agents.find((user) => user.id == id);
-    console.log(editingUser);
   };
 
   const toggleEdit = (id: string) => {
@@ -151,6 +138,8 @@ const Agents: NextPage = () => {
           userId=""
           isGasStation={false}
           isUserEdit={false}
+          isGasStationEdit={false}
+          gasStationId=""
         />
       )}
       {isEditModalOpen && (
@@ -163,6 +152,8 @@ const Agents: NextPage = () => {
           isGasStation={false}
           isUserEdit={true}
           userId={selectedEditRecordId}
+          isGasStationEdit={false}
+          gasStationId=""
         />
       )}
       {isConfirmModalOpen && (
