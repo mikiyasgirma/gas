@@ -86,7 +86,6 @@ const RegisterGasStations: NextPage = () => {
       key: "action",
       title: "Actions",
       render: (record: any) => {
-        console.log("record", record);
         return (
           <>
             <div className="flex space-x-3">

@@ -11,18 +11,10 @@ import useGasStationsStore from "../store/gasStationsStore";
 import { db } from "../firebase";
 import { async } from "@firebase/util";
 import date from "date-and-time";
+import { storage } from "../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 type props = {};
-
-const initialState = {
-  name: "",
-  image: "",
-  NumberOfHoses: "",
-  BenzilCapacity: "",
-  NaftaCapacity: "",
-  agent: "",
-  location: "",
-};
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -51,6 +43,7 @@ const GasStationRegistrationForm = (): JSX.Element => {
   const agents = useAgentsStore((state) => state.agents);
   const addGasStations = useGasStationsStore((state) => state.addGasStation);
   console.log("agents from form", agents);
+  console.log("image taken", imageUrl);
 
   const now = new Date();
 
@@ -75,8 +68,15 @@ const GasStationRegistrationForm = (): JSX.Element => {
     if (info.file.status === "done") {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj as RcFile, (url) => {
+        console.log("image Object", info.file.originFileObj);
+        const imageRef = ref(storage, info.file.originFileObj?.name);
+        uploadBytes(imageRef, info.file.originFileObj).then(() => {
+          getDownloadURL(imageRef).then((url) => {
+            setImageUrl(url);
+          });
+        });
         setLoading(false);
-        setImageUrl(url);
+        // setImageUrl(url);
       });
     }
   };
@@ -141,6 +141,7 @@ const GasStationRegistrationForm = (): JSX.Element => {
               uploadButton
             )}
           </Upload>
+          <ImageUploader />
           <Form.Item name="name" label="Gas Station Name">
             <Input placeholder="input gas station name" />
           </Form.Item>
