@@ -38,7 +38,6 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
   const onFinish = async (values: any) => {
     console.log(values);
     const formValuesWithDefaultValues: any = {
-      id: editGasStation?.id,
       name: values.name,
       image: editGasStation?.image,
       address: values.address,

@@ -86,9 +86,9 @@ const useGasStationsStore = create<gasStationStore>((set) => ({
     try {
       await setDoc(doc(db, "gasstations", id), {
         name: gasStation.name,
-        // image: gasStation.image,
+        image: gasStation.image,
         address: gasStation.address,
-        // geoPoint: gasStation.geoPoint,
+        geoPoint: gasStation.geoPoint,
         numberOfHoses: gasStation.numberOfHoses,
         naftaAvailable: gasStation.naftaAvailable,
         naftaCapacity: gasStation.naftaCapacity,
