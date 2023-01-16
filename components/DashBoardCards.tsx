@@ -2,8 +2,19 @@ import { FaGasPump } from "react-icons/fa";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdEventAvailable } from "react-icons/md";
 import { HiQueueList } from "react-icons/hi2";
+import useGasStationsStore from "../store/gasStationsStore";
+import { useEffect, useState } from "react";
+import useAgentsStore from "../store/agentsStore";
 
 const DashBoardCards = () => {
+  const gasStations = useGasStationsStore((state) => state.gasStations);
+  const syncGasStations = useGasStationsStore((state) => state.syncGasStations);
+  const syncUsers = useAgentsStore((state) => state.syncUsers);
+
+  useEffect(() => {
+    syncGasStations();
+    syncUsers();
+  }, []);
   return (
     <>
       <div className="flex space-x-12 w-full p-12">
@@ -15,7 +26,9 @@ const DashBoardCards = () => {
                   <p className="mb-0 font-sans font-semibold leading-normal text-sm">
                     Number of Registred Gas Stations
                   </p>
-                  <h5 className="mb-0 font-bold text-4xl py-2">162</h5>
+                  <h5 className="mb-0 font-bold text-4xl py-2">
+                    {gasStations.length}
+                  </h5>
                 </div>
               </div>
               <div className="w-4/12 max-w-full px-3 ml-auto text-right flex-0">
@@ -32,7 +45,9 @@ const DashBoardCards = () => {
                   <p className="mb-0 font-sans font-semibold leading-normal text-sm">
                     Number of Active Users
                   </p>
-                  <h5 className="mb-0 font-bold text-4xl py-2">162</h5>
+                  <h5 className="mb-0 font-bold text-4xl py-2">
+                    {syncUsers.length}
+                  </h5>
                 </div>
               </div>
               <div className="w-4/12 max-w-full px-3 ml-auto text-right flex-0">
