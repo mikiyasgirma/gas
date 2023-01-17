@@ -16,6 +16,7 @@ import useAuthStore from "../store/authStore";
 import { useRouter } from "next/router";
 import ConfirmModal from "../components/ConfirmModal";
 import useEditModalStore from "../store/editModalStore";
+import useAgentsStore from "../store/agentsStore";
 
 const RegisterGasStations: NextPage = () => {
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -28,6 +29,18 @@ const RegisterGasStations: NextPage = () => {
   const isEditModalOpen = useEditModalStore((state) => state.isEditModalOpen);
   const openEditModal = useEditModalStore((state) => state.openEditModal);
   const [selectedEditRecordId, setSelectedEditRecordId] = useState("");
+  const agents = useAgentsStore((state) => state.agents);
+
+  const role = agents.find((agent) => agent.email === currentUser?.user.email);
+
+  const filteredStationsBasedOnAgentRole = [
+    gasStations.find((gasStation) => gasStation.name === role?.assignedTo),
+  ];
+  console.log(
+    "filteredStationsBasedOnAgentRole",
+    filteredStationsBasedOnAgentRole
+  );
+
   const deleteGasStation = useGasStationsStore(
     (state) => state.removeGasStation
   );
@@ -93,10 +106,12 @@ const RegisterGasStations: NextPage = () => {
                 style={{ color: "black" }}
                 onClick={() => toggleEdit(record.id)}
               />
-              <DeleteOutlined
-                style={{ color: "red" }}
-                onClick={() => toggleDeleteModal(record.id)}
-              />
+              {role?.role === "admin" && (
+                <DeleteOutlined
+                  style={{ color: "red" }}
+                  onClick={() => toggleDeleteModal(record.id)}
+                />
+              )}
             </div>
           </>
         );
@@ -141,13 +156,20 @@ const RegisterGasStations: NextPage = () => {
         </div>
         <div className="basis-3/4 px-16">
           <div className="flex flex-col h-full space-y-8 items-center pt-4 justify-center">
-            <button
-              onClick={() => showModal()}
-              className="bg-primary p-2 text-white rounded-lg"
-            >
-              Add Gas Station
-            </button>
-            <Table columns={columns} dataSource={gasStations} />
+            {role?.role === "admin" && (
+              <button
+                onClick={() => showModal()}
+                className="bg-primary p-2 text-white rounded-lg"
+              >
+                Add Gas Station
+              </button>
+            )}
+
+            <Table
+              columns={columns}
+              // @ts-ignore
+              dataSource={filteredStationsBasedOnAgentRole}
+            />
           </div>
         </div>
       </div>
