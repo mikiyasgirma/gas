@@ -46,6 +46,9 @@ const UserRegistrationForm = () => {
       <Form.Item name="password" label="Password" required>
         <Input placeholder="Create a password for the user" />
       </Form.Item>
+      <Form.Item name="contact" label="Contact" required>
+        <Input placeholder="Place user contact address" />
+      </Form.Item>
       <Form.Item name="role" label="Role" required>
         <Select showSearch placeholder="Select role for the user">
           <Select.Option key="admin" value="admin">

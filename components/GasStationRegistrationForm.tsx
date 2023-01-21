@@ -193,6 +193,24 @@ const GasStationRegistrationForm = (): JSX.Element => {
               <Input placeholder="input gas station available" />
             </Form.Item>
           </div>
+          <div>
+            <Form.Item name="queue" label="Queue Length" required>
+              <Select
+                showSearch
+                placeholder="Assign gas station if only the role is agent"
+              >
+                <Select.Option key="high" value="high">
+                  High
+                </Select.Option>
+                <Select.Option key="medium" value="medium">
+                  Medium
+                </Select.Option>
+                <Select.Option key="low" value="low">
+                  Low
+                </Select.Option>
+              </Select>
+            </Form.Item>
+          </div>
           <div className="flex space-x-2">
             <Button htmlType="button" onClick={() => closeModal()}>
               Cancel

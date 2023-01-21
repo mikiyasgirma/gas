@@ -10,11 +10,45 @@ const DashBoardCards = () => {
   const gasStations = useGasStationsStore((state) => state.gasStations);
   const syncGasStations = useGasStationsStore((state) => state.syncGasStations);
   const syncUsers = useAgentsStore((state) => state.syncUsers);
+  const users = useAgentsStore((state) => state.agents);
 
   useEffect(() => {
     syncGasStations();
     syncUsers();
   }, []);
+
+  const averageCounter = [
+    {
+      value: "high",
+      count: 0,
+    },
+    {
+      value: "low",
+      count: 0,
+    },
+    {
+      value: "medium",
+      count: 0,
+    },
+  ];
+
+  const count = gasStations.filter((gasstation) => {
+    if (gasstation.benzilAvailable > 0 && gasstation.naftaAvailable > 0) {
+      return true;
+    }
+    return false;
+  }).length;
+
+  for (const obj of gasStations) {
+    if (obj.queue === "high") averageCounter[0].count++;
+    else if (obj.queue === "medium") averageCounter[2].count++;
+    else if (obj.queue === "low") averageCounter[1].count++;
+  }
+
+  let objMax = averageCounter.reduce((max, current) =>
+    max.count > current.count ? max : current
+  );
+
   return (
     <>
       <div className="flex space-x-12 w-full p-12">
@@ -46,7 +80,7 @@ const DashBoardCards = () => {
                     Number of Active Users
                   </p>
                   <h5 className="mb-0 font-bold text-4xl py-2">
-                    {syncUsers.length}
+                    {users.length}
                   </h5>
                 </div>
               </div>
@@ -64,7 +98,7 @@ const DashBoardCards = () => {
                   <p className="mb-0 font-sans font-semibold leading-normal text-sm">
                     Number of Available Gas Stations
                   </p>
-                  <h5 className="mb-0 font-bold text-4xl py-2">162</h5>
+                  <h5 className="mb-0 font-bold text-4xl py-2">{count}</h5>
                 </div>
               </div>
               <div className="w-4/12 max-w-full px-3 ml-auto text-right flex-0">
@@ -79,9 +113,11 @@ const DashBoardCards = () => {
               <div className="flex-none w-2/3 max-w-full px-3 text-lg">
                 <div>
                   <p className="mb-0 font-sans font-semibold leading-normal text-sm">
-                    Average Queue Status
+                    Maximum Queue Status
                   </p>
-                  <h5 className="mb-0 font-bold text-xl py-2">Medium</h5>
+                  <h5 className="mb-0 font-bold text-xl py-2">
+                    {objMax.value}
+                  </h5>
                 </div>
               </div>
               <div className="w-4/12 max-w-full px-3 ml-auto text-right flex-0">

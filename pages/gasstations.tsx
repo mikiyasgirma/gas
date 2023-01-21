@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import ConfirmModal from "../components/ConfirmModal";
 import useEditModalStore from "../store/editModalStore";
 import useAgentsStore from "../store/agentsStore";
+// import MapC from "../components/Map";
 
 const RegisterGasStations: NextPage = () => {
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -94,6 +95,11 @@ const RegisterGasStations: NextPage = () => {
       title: "Nafta Available in Liter",
       dataIndex: "naftaAvailable",
     },
+    {
+      key: "queue",
+      title: "Queue Length",
+      dataIndex: "queue",
+    },
 
     {
       key: "action",
@@ -164,12 +170,20 @@ const RegisterGasStations: NextPage = () => {
                 Add Gas Station
               </button>
             )}
-
-            <Table
-              columns={columns}
-              // @ts-ignore
-              dataSource={filteredStationsBasedOnAgentRole}
-            />
+            {role?.role === "admin" && (
+              <Table
+                columns={columns}
+                // @ts-ignore
+                dataSource={gasStations}
+              />
+            )}
+            {role?.role === "agent" && (
+              <Table
+                columns={columns}
+                // @ts-ignore
+                dataSource={filteredStationsBasedOnAgentRole}
+              />
+            )}
           </div>
         </div>
       </div>

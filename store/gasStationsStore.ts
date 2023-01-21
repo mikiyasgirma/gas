@@ -28,6 +28,7 @@ interface gasStation {
   benzilAvailable: number;
   naftaCapacity: number;
   naftaAvailable: number;
+  queue: string;
 }
 
 interface gasStationStore {
@@ -70,6 +71,7 @@ const useGasStationsStore = create<gasStationStore>((set) => ({
           benzilCapacity: gasStation.benzilCapacity,
           benzilAvailable: gasStation.benzilAvailable,
           updatedat: gasStation.updatedat,
+          queue: gasStation.queue,
         },
       ],
     }));
@@ -95,6 +97,7 @@ const useGasStationsStore = create<gasStationStore>((set) => ({
         benzilCapacity: gasStation.benzilCapacity,
         benzilAvailable: gasStation.benzilAvailable,
         updatedat: gasStation.updatedat,
+        queue: gasStation.queue,
       });
     } catch (error) {
       console.log(error);

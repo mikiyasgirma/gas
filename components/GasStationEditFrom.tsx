@@ -62,6 +62,7 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
         role && role.role === "agent" ? editGasStation?.name : values.name,
       naftaAvailable: values.naftaAvailable,
       updatedat: editGasStation?.updatedat,
+      queue: editGasStation?.queue,
     };
     updateGasStation(formValuesWithDefaultValues, gasStationId);
     closeEditModal();
@@ -88,6 +89,7 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
         naftaCapacity: editGasStation?.naftaCapacity,
         naftaAvailable: editGasStation?.naftaAvailable,
         updatedat: editGasStation?.updatedat,
+        queue: editGasStation?.queue,
       }}
     >
       <div className="grid grid-cols-2 gap-12">
@@ -145,6 +147,24 @@ const GasStationEditForm = ({ gasStationId }: props): JSX.Element => {
             </Form.Item>
             <Form.Item name="naftaAvailable" label="Available in Liter">
               <Input />
+            </Form.Item>
+          </div>
+          <div>
+            <Form.Item name="queue" label="Queue Length" required>
+              <Select
+                showSearch
+                placeholder="Assign gas station if only the role is agent"
+              >
+                <Select.Option key="high" value="high">
+                  High
+                </Select.Option>
+                <Select.Option key="medium" value="medium">
+                  Medium
+                </Select.Option>
+                <Select.Option key="low" value="low">
+                  Low
+                </Select.Option>
+              </Select>
             </Form.Item>
           </div>
           <div className="flex space-x-2">

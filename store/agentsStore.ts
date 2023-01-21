@@ -18,6 +18,7 @@ export interface User {
   assignedTo: string;
   email: string;
   role: string;
+  contact: number;
 }
 
 export interface Test {
@@ -31,6 +32,7 @@ export interface Agents {
   id: string;
   email: string;
   role: string;
+  contact: number;
 }
 
 interface AgentsState {
@@ -54,6 +56,7 @@ const useAgentsStore = create<AgentsState>((set) => ({
           email: agent.email,
           role: agent.role,
           assignedTo: agent.assignedTo,
+          contact: agent.contact,
         } as User,
       ],
     }));
@@ -86,6 +89,7 @@ const useAgentsStore = create<AgentsState>((set) => ({
         lastName: agent.lastName,
         role: agent.role,
         email: agent.email,
+        contact: agent.contact,
         assignedTo: agent.assignedTo,
       });
     } catch (error) {

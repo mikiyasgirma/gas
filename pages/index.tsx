@@ -7,8 +7,6 @@ import DashBoardCards from "../components/DashBoardCards";
 import Layout from "../components/Layout";
 import PieChart from "../components/PieChart";
 import SideBar from "../components/SideBar";
-import { db } from "../firebase";
-import Footer from "../components/Footer";
 import useAuthStore from "../store/authStore";
 import { useRouter } from "next/router";
 
@@ -32,14 +30,15 @@ const Home: NextPage = () => {
           <div className="grid grid-cols-2 gap-8 px-12">
             <div className="h-72">
               <PieChart />
-              <p className="pt-6 text-lg font-poppins font-light">
+              <p className="pt-6 text-sm font-poppins font-light">
                 Latest Queus in Gas Stations
               </p>
             </div>
             <div className="h-72 text-lg font-poppins font-light">
               <BarChart />
-              <p className="pt-6 text-lg font-poppins font-light">
-                Latest Queus in Gas Stations
+              <p className="pt-6 text-sm font-poppins font-light">
+                Latest Available Benzil and Nafta within five sample gas
+                stations
               </p>
             </div>
           </div>

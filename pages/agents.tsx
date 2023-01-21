@@ -54,6 +54,11 @@ const Agents: NextPage = () => {
       dataIndex: "role",
     },
     {
+      key: "contact",
+      title: "Contact",
+      dataIndex: "contact",
+    },
+    {
       key: "assignedTo",
       title: "Assigned To",
       dataIndex: "assignedTo",
